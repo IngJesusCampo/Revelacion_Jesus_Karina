@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+const audioSrc = `${import.meta.env.BASE_URL}alex-warren-ordinary.mp3`;
+
 function BackgroundMusic() {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -52,8 +54,8 @@ function BackgroundMusic() {
   };
 
   const handleAudioError = () => {
-    if (audioRef.current && audioRef.current.currentSrc !== window.location.origin + "/alex-warren-ordinary.mp3") {
-      audioRef.current.src = "/alex-warren-ordinary.mp3";
+    if (audioRef.current && audioRef.current.currentSrc !== audioSrc) {
+      audioRef.current.src = audioSrc;
     }
   };
 
@@ -61,7 +63,7 @@ function BackgroundMusic() {
     <>
       <audio
         ref={audioRef}
-        src="/alex-warren-ordinary.mp3"
+        src={audioSrc}
         autoPlay
         loop
         onError={handleAudioError}
