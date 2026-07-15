@@ -12,12 +12,15 @@ function BackgroundMusic() {
       return;
     }
 
-    audioRef.current.volume = 0.25;
-    audioRef.current.muted = false;
+    const audio = audioRef.current;
+    audio.volume = 0.25;
+    audio.muted = false;
+    audio.preload = "auto";
 
     const startPlayback = async () => {
       try {
-        await audioRef.current.play();
+        audio.load();
+        await audio.play();
         setIsPlaying(true);
       } catch (error) {
         console.warn("La reproducción automática fue bloqueada por el navegador:", error);
@@ -65,6 +68,8 @@ function BackgroundMusic() {
         src={audioSrc}
         autoPlay
         loop
+        preload="auto"
+        playsInline
         onError={handleAudioError}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
