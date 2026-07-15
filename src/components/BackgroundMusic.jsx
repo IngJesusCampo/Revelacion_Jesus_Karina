@@ -35,7 +35,7 @@ function BackgroundMusic() {
 
     const audio = audioRef.current;
 
-    if (audio.muted || !isPlaying) {
+    if (audio.muted) {
       audio.muted = false;
       setIsMuted(false);
 
@@ -43,7 +43,7 @@ function BackgroundMusic() {
         await audio.play();
         setIsPlaying(true);
       } catch (error) {
-        console.warn("No se pudo reanudar la música:", error);
+        console.warn("No se pudo desmutear la música:", error);
       }
       return;
     }
