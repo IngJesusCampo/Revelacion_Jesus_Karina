@@ -10,18 +10,29 @@ function CountdownScreen({ onComplete }) {
     const targetTime = new Date(now);
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const isEurope = ["Europe/Madrid", "Europe/Rome", "Europe/Paris", "Europe/Berlin", "Europe/Andorra", "Europe/Valencia"].includes(timeZone);
+    const isGuatemala = ["America/Guatemala"].includes(timeZone);
 
-    targetTime.setHours(isEurope ? 23 : 16, 0, 0, 0);
+    // Colombia time: 16:00. In Europe (Italy/Spain) that's 23:00 local.
+    // Guatemala is UTC-6 (one hour behind Colombia), so equivalent local hour is 15:00.
+    const targetHour = isEurope ? 23 : isGuatemala ? 15 : 16;
+    targetTime.setHours(targetHour, 0, 0, 0);
     return targetTime;
   };
 
   const getNoticeText = () => {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const isEurope = ["Europe/Madrid", "Europe/Rome", "Europe/Paris", "Europe/Berlin", "Europe/Andorra", "Europe/Valencia"].includes(timeZone);
+    const isGuatemala = ["America/Guatemala"].includes(timeZone);
 
-    return isEurope
-      ? "La revelación estará disponible el 16 de julio de 2026 a las 4:00 p. m. hora Colombia, que equivale a las 11:00 p. m. en Italia/España."
-      : "La revelación estará disponible el 16 de julio de 2026 a las 4:00 p. m. hora Colombia.";
+    if (isEurope) {
+      return "La revelación estará disponible el 16 de julio de 2026 a las 4:00 p. m. hora Colombia, que equivale a las 11:00 p. m. en Italia/España.";
+    }
+
+    if (isGuatemala) {
+      return "La revelación estará disponible el 16 de julio de 2026 a las 4:00 p. m. hora Colombia, que equivale a las 3:00 p. m. en Guatemala.";
+    }
+
+    return "La revelación estará disponible el 16 de julio de 2026 a las 4:00 p. m. hora Colombia.";
   };
 
   const [isWaiting, setIsWaiting] = useState(() => {
