@@ -15,6 +15,8 @@ function CountdownScreen({ onComplete }) {
     // Colombia time: 16:00. In Europe (Italy/Spain) that's 23:00 local.
     // Guatemala is UTC-6 (one hour behind Colombia), so equivalent local hour is 15:00.
     const targetHour = isEurope ? 23 : isGuatemala ? 15 : 16;
+    // Use tomorrow at the target hour instead of today
+    targetTime.setDate(targetTime.getDate() + 1);
     targetTime.setHours(targetHour, 0, 0, 0);
     return targetTime;
   };
