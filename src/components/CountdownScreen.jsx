@@ -4,6 +4,8 @@ function CountdownScreen({ onComplete }) {
   const [countdown, setCountdown] = useState(10);
   const [showReveal, setShowReveal] = useState(false);
   const [progress, setProgress] = useState(0);
+  // Set to true to force the reveal immediately (for publishing now)
+  const FORCE_OPEN_NOW = true;
 
   const getTargetTime = () => {
     const now = new Date();
@@ -38,6 +40,7 @@ function CountdownScreen({ onComplete }) {
   };
 
   const [isWaiting, setIsWaiting] = useState(() => {
+    if (FORCE_OPEN_NOW) return false;
     const now = new Date();
     const targetTime = getTargetTime();
     return now < targetTime;
@@ -46,6 +49,13 @@ function CountdownScreen({ onComplete }) {
 
   useEffect(() => {
     targetTimeRef.current = getTargetTime();
+    if (FORCE_OPEN_NOW) {
+      setIsWaiting(false);
+      setCountdown(10);
+      setShowReveal(false);
+      setProgress(0);
+      return;
+    }
 
     const now = new Date();
     if (now >= targetTimeRef.current) {
